@@ -1,5 +1,5 @@
 # security-assurance-test-cookbook-with-Scapy
-This cookbook is for test cases of security assurance requirements defined in 3GPP TS 33.117. All test cases are based on Scapy tool.
+This cookbook is for test cases of security assurance requirements defined in 3GPP TS 33.117. All test cases are based on Scapy and verified with Scapy 2.5.0.
 
 # Cover IPv4 options in RFC791 - Start
 # Create packet with NOP option
